@@ -1,32 +1,54 @@
+"""
+  This module prepares words for wordle game.
+"""
 
-def read_words(filename):
-    my_file = open(filename, "r") #1 if you want to change input file
-    words = my_file.read() #1
-    word_lst = words.split() #1
-    my_file.close() #1
-    return word_lst
+ALL_WORDS_FILE = "all_words.txt"
+GAME_WORDS_FILE = "game_words.txt"
 
-def filtered_words(word_lst):
-    new_lst = [] #2
-    for item in word_lst: #2
-        if len(item) >= 4 and len(item) <= 6 and item.isalpha(): #2 #if you want to change the range of the word length
-            new_lst.append(item) #2
-    return new_lst #2
 
-def combined_file(new_lst):
-    new_file = open("new_file.txt", "w") #3 Change here if you want to change the output file
-    combined_lst = '\n'.join(new_lst) #3
-    new_file.write(combined_lst) #3
-    new_file.close() #3
+def read_words_from_file(filename):
+    """
+    This function reads a file and returns list of words present inside the file.
+
+    :param filename: the name of the file to be read
+    :return: list of found words
+    """
+    in_file = open(filename, "r")
+    words_str = in_file.read()
+    words = words_str.split()
+    in_file.close()
+    return words
+
+
+def filter_words(words, min_length, max_length):
+    result = []
+    for item in words:
+        if min_length <= len(item) <= max_length and item.isalpha():
+            result.append(item)
+    return result
+
+
+def write_words_in_file(words, filename):
+    """
+    This function gets a list of strings (words) and writes each word at a line in th file.
+
+    :param words: list of words that should be written in a file
+    :param filename: the name of the file that words are going to be written inside of it
+    """
+
+    out_file = open(filename, "w")
+    words_str = '\n'.join(words)
+    out_file.write(words_str)
+    out_file.close()
 
 
 def main():
-    word_lst = read_words('worddle.txt')
+    words = read_words_from_file(ALL_WORDS_FILE)
 
-    filtered_lst = filtered_words(word_lst)
+    filtered_words = filter_words(words, 4, 6)
 
-    combined_file(filtered_lst)
+    write_words_in_file(filtered_words, GAME_WORDS_FILE)
+
 
 if __name__ == "__main__":
     main()
-    #what steps are present and what are missing in order to replicate the worddle app - what do we need to do next?
