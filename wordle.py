@@ -14,7 +14,16 @@ def get_user_guess(length):
     :param length: number of expected letter inside the gues
     :return: the lowercase valid input guess of the user
     """
-    pass
+    guess = input("Enter your guess:")
+    while len(guess) != length or not guess.isalpha():
+        print('Incorrect length or characters. Please try again')
+        guess = input("Enter your guess:")
+    return guess.lower()
+
+
+
+
+
 
 def main():
     game_words = read_words_from_file(GAME_WORDS_FILE)
@@ -26,11 +35,6 @@ def main():
     guess = ""
     while guess.lower() != selected_word and i < MAX_TRIES:
         guess = get_user_guess(len(selected_word))
-        guess = input("Please enter your word guess: ")
-
-        while len(guess) != len(selected_word):
-            print('Try again, wrong length')
-            guess = input("Please enter your word guess: ")
 
         i += 1
 

@@ -21,6 +21,15 @@ def read_words_from_file(filename):
 
 
 def filter_words(words, min_length, max_length):
+    """
+    Refining the list of words to specified min and max length items and only alphabetical items and saving in a list.
+
+    :param words: List of words.
+    :param min_length: minimum length of allowable words.
+    :param max_length: maximum length of allowable words.
+    :return List of words that are between the min and max allowable length and are alphabetical.
+
+    """
     result = []
     for item in words:
         if min_length <= len(item) <= max_length and item.isalpha():
