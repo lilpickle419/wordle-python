@@ -14,15 +14,26 @@ def get_user_guess(length):
     :param length: number of expected letter inside the gues
     :return: the lowercase valid input guess of the user
     """
-    guess = input("Enter your guess:")
+    guess = input("Enter your guess: ")
     while len(guess) != length or not guess.isalpha():
-        print('Incorrect length or characters. Please try again')
-        guess = input("Enter your guess:")
+        print('Incorrect length or characters. Please try again.')
+        guess = input("Enter your guess: ")
     return guess.lower()
 
 
+def get_feedback(selected_word: str, guess: str) -> dict:
+    """
+    This function generates the feedback pattern of the guess against the selected word.
+    The feedback is a python dictionary which its keys are indexes and the values are as follows.
+    All the correct letters in the correct positions are going to have green values
+    All the remaining correct letters in incorrect positions are going to have yellow values
+    The remaining indexes are going to have gray values
+    :param selected_word: the word that should be used as the answer
+    :param guess: the user guess that should be checked
+    :return: a dictionary of the feedback pattern
+    """
 
-
+    pass
 
 
 def main():
@@ -35,6 +46,7 @@ def main():
     guess = ""
     while guess.lower() != selected_word and i < MAX_TRIES:
         guess = get_user_guess(len(selected_word))
+        feedback_pattern = get_feedback(selected_word, guess)
 
         i += 1
 
