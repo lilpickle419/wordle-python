@@ -32,8 +32,25 @@ def get_feedback(selected_word: str, guess: str) -> dict:
     :param guess: the user guess that should be checked
     :return: a dictionary of the feedback pattern
     """
+    # feedback = {
+    #     0:"Green",
+    #     1:"Yellow",
+    #     2:"Gray",
+    #     3:"Gray",
+    #     4:"Green"
+    # }
+    feedback = {}
+    for i in range(len(guess)):
 
-    pass
+        letter = guess[i]
+        if guess[i] == selected_word[i]:
+            # print(Back.GREEN + letter + Style.RESET_ALL, end=' ')
+            feedback[i] = "Green"
+
+        else:
+            # print(Fore.RED + letter + Style.RESET_ALL, end=' ')
+            feedback[i] = "Gray"
+    return feedback
 
 
 def main():
@@ -47,6 +64,7 @@ def main():
     while guess.lower() != selected_word and i < MAX_TRIES:
         guess = get_user_guess(len(selected_word))
         feedback_pattern = get_feedback(selected_word, guess)
+        print(feedback_pattern)
 
         i += 1
 
