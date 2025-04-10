@@ -21,41 +21,47 @@ def get_user_guess(length):
     return guess.lower()
 
 
-def get_feedback(selected_word: str, guess: str) -> dict:
+def get_feedback(selected_word: str, guess: str) -> list:
     """
     This function generates the feedback pattern of the guess against the selected word.
-    The feedback is a python dictionary which its keys are indexes and the values are as follows.
+    The feedback is a python list which its values are as follows.
     All the correct letters in the correct positions are going to have green values
     All the remaining correct letters in incorrect positions are going to have yellow values
     The remaining indexes are going to have gray values
     :param selected_word: the word that should be used as the answer
     :param guess: the user guess that should be checked
-    :return: a dictionary of the feedback pattern
+    :return: a list of the feedback pattern
     """
-    # feedback = {
-    #     0:"Green",
-    #     1:"Yellow",
-    #     2:"Gray",
-    #     3:"Gray",
-    #     4:"Green"
-    # }
-    feedback = {}
-    for i in range(len(guess)):
 
+    length = len(guess)
+    feedback = ['GRAY'] * length
+    letters_count = {}
+
+    for letter in selected_word:
+        if letter in letters_count:
+            letters_count[letter] += 1
+        else:
+            letters_count[letter] = 1
+
+    for i in range(length):
         letter = guess[i]
         if guess[i] == selected_word[i]:
-            # print(Back.GREEN + letter + Style.RESET_ALL, end=' ')
-            feedback[i] = "Green"
+            feedback[i] = "GREEN"
+            letters_count[letter] -= 1
 
-        else:
-            # print(Fore.RED + letter + Style.RESET_ALL, end=' ')
-            feedback[i] = "Gray"
+    for i in range(length):
+        letter = guess[i]
+        if feedback[i] == 'GRAY':
+            if letter in letters_count and letters_count[letter] > 0:
+                feedback[i] = "YELLOW"
+                letters_count[letter] -= 1
+
     return feedback
 
 
 def main():
     game_words = read_words_from_file(GAME_WORDS_FILE)
-    selected_word = random.choice(game_words)
+    selected_word = random.choice(game_words).lower()
 
     print(f"You should guess a word with {len(selected_word)} letters.")
 
@@ -104,12 +110,12 @@ def main():
     # print the correct letters in green using the imported functions
     # print the wrong letters with no style
 
-    for i in range(len(guess)):
-        letter = guess[i]
-        if guess[i] == selected_word[i]:
-            print(Back.GREEN + letter + Style.RESET_ALL, end=' ')
-        else:
-            print(Fore.RED + letter + Style.RESET_ALL, end=' ')
+    # for i in range(len(guess)):
+    #     letter = guess[i]
+    #     if guess[i] == selected_word[i]:
+    #         print(Back.GREEN + letter + Style.RESET_ALL, end=' ')
+    #     else:
+    #         print(Fore.RED + letter + Style.RESET_ALL, end=' ')
 
     # selected word = help
     # guess = hope   + - % %
@@ -130,13 +136,13 @@ def main():
     #
     # word_dict = {}
 
-    def get_letters_count(word):
-        word_dict = {}
-        for letter in word:
-            word_dict['letter'] = 1
-        return word_dict
-
-    print(get_letters_count('apple'))
+    # def get_letters_count(word):
+    #     word_dict = {}
+    #     for letter in word:
+    #         word_dict['letter'] = 1
+    #     return word_dict
+    #
+    # print(get_letters_count('apple'))
 
     # apple
     # {'a': 1, 'p': 2, 'l': 1, 'e': 1 }
